@@ -94,12 +94,12 @@ class Review:
         CONN.commit()
 
         self.id = CURSOR.lastrowid
-        Review.all[self.id] = self
+        type(self).all[self.id] = self
 
     @classmethod
     def create(cls, year, summary, employee_id):
         """ Initialize a new Review instance and save the object to the database """
-        review = Review(year, summary, employee_id)
+        review = cls(year, summary, employee_id)
         review.save()
         return review
     
@@ -107,7 +107,7 @@ class Review:
     def instance_from_db(cls, row):
         """Return an Review object having the attribute values from the table row."""
         # Check the dictionary for  existing instance using the row's primary key
-        review = Review.all.get(row[0])
+        review = cls.all.get(row[0])
         if review:
             # ensure attributes match row values in case local instance was modified
             review.year = row[1]
@@ -117,7 +117,7 @@ class Review:
         else:
             review = cls(row[1], row[2], row[3])
             review.id = row[0]
-            Review.all[review.id] = review
+            cls.all[review.id] = review
         return review
     
 
