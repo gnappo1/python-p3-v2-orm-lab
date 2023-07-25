@@ -92,7 +92,7 @@ columns for a "reviews" table row based on the `id` of the current object.
 ### `delete()`
 
 This instance method should delete a "reviews" table row based on the `id` of
-the current object.
+the current object. It will also remove the instance from the `all` dictionary.
 
 ### `get_all()`
 
