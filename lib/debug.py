@@ -20,11 +20,11 @@ def reset_database():
     payroll = Department.create("Payroll", "Building A, 5th Floor")
     human_resources = Department.create(
         "Human Resources", "Building C, East Wing")
-    employee1 = Employee.create("Lee", "Manager", payroll)
-    employee2 = Employee.create("Sasha", "Manager", human_resources)
-    Review.create(2023, "Efficient worker", employee1)
-    Review.create(2022, "Good work ethic", employee1)
-    Review.create(2023, "Excellent communication skills", employee2)
+    employee1 = Employee.create("Lee", "Manager", payroll.id)
+    employee2 = Employee.create("Sasha", "Manager", human_resources.id)
+    Review.create(2023, "Efficient worker", employee1.id)
+    Review.create(2022, "Good work ethic", employee1.id)
+    Review.create(2023, "Excellent communication skills", employee2.id)
 
 
 reset_database()
