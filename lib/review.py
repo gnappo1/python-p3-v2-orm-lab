@@ -141,7 +141,7 @@ class Review:
             WHERE id = ?
         """
         CURSOR.execute(sql, (self.year, self.summary,
-                             self.employee_id, self.id))
+                            self.employee_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -153,6 +153,8 @@ class Review:
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+        # remove object from local dictionary
+        del type(self).all[self.id]
 
     @classmethod
     def get_all(cls):

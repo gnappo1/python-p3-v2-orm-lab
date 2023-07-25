@@ -102,7 +102,7 @@ class Employee:
             WHERE id = ?
         """
         CURSOR.execute(sql, (self.name, self.job_title,
-                             self.department_id, self.id))
+                            self.department_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -114,6 +114,8 @@ class Employee:
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+        # remove object from local dictionary
+        del type(self).all[self.id]
 
     @classmethod
     def create(cls, name, job_title, department_id):
