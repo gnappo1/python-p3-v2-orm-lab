@@ -13,6 +13,44 @@ class Employee:
         self.job_title = job_title
         self.department_id = department_id
 
+    @property
+    def year(self):
+        return self._year
+
+    @year.setter
+    def year(self, year):
+        if isinstance(year, int) and year >= 2000:
+            self._year = year
+        else:
+            raise ValueError(
+                "year must be an integer >= 2000"
+            )
+
+    @property
+    def summary(self):
+        return self._summary
+
+    @summary.setter
+    def summary(self, summary):
+        if isinstance(summary, str) and len(summary) > 0:
+            self._summary = summary
+        else:
+            raise ValueError(
+                "summary must be a non-empty string"
+            )
+
+    @property
+    def employee_id(self):
+        return self._employee_id
+
+    @employee_id.setter
+    def employee_id(self, employee_id):
+        if type(employee_id) is int and Employee.find_by_id(employee_id):
+            self._employee_id = employee_id
+        else:
+            raise ValueError(
+                "employee_id must reference an employee in the database")
+
     def __repr__(self):
         return (
             f"<Employee {self.id}: {self.name}, {self.job_title}, " +
@@ -176,6 +214,12 @@ class Employee:
         row = CURSOR.execute(sql, (name,)).fetchone()
         return cls.instance_from_db(row) if row else None
 
-    def reviews(self):
+    def reviews(self): #! has_many
         """Return list of reviews associated with current employee"""
-        pass
+        from review import Review
+        sql = """
+            SELECT * FROM reviews
+            WHERE employee_id = ?
+        """
+        rows = CURSOR.execute(sql, (self.id,)).fetchall()
+        return [Review.instance_from_db(row) for row in rows]
