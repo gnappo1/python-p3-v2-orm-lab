@@ -149,6 +149,14 @@ class Review:
         """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+        # Delete the dictionary entry using id as the key
+        del type(self).all[self.id]
+
+        # Set the id to None
+        #! Line 159 breaks a test but think about it
+        #! If there were an object representation of the record you just deleted
+        #! Would you want that record to retain its id? Or should it be set to None?
+        # self.id = None
 
     @classmethod
     def get_all(cls):
@@ -161,4 +169,4 @@ class Review:
 
     def employee(self): #! belongs_to
         from employee import Employee
-        return Employee.find_by_id(self.employee_id)
+        return Employee.find_by_id(self.employee_id) if self.employee_id else None
